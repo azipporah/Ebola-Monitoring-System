@@ -4,25 +4,50 @@ const schema = mongoose.Schema; //creating a schema object
 const userSchema = new schema({
     username: {
         type:String,
-        required: true
+        required: true,
+        maxlength:32,
+        trim:true
     },
     email: {
         type:String,
-        required: true
-    },
-    role: {
-        type:String,
-        required: true
+        required: true,
+        trim:true,
+        unique:true
     },
     password: {
         type:String,
         required: true
     },
-    confirmPassword: {
-        type:String,
-        required: true
-    }
+
+    // confirmPassword: {
+    //     type:String,
+    //     required: true
+    // },
+    roles: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"Role"
+    }]
 })
 
-const user = mongoose.model("users", userSchema)
-module.exports = user
+// userSchema.statics.isThisEmailInUse = async function(email){
+// const usr = await this.findOne({email})
+// if (!email) {
+//     // throw new Error("Invalid email")
+//     console.log("Invalid email");
+// }
+// try {
+//     if (usr) {
+//         // return false
+//         console.log("Email already exists");
+//     }else{
+//         return true
+//     }
+// } catch (error) {
+//     console.log("error inside isThisEmailInUse method", error.message);
+//     return false
+// }
+
+// }
+
+const User = mongoose.model("Users", userSchema)
+module.exports = User 
